@@ -4,37 +4,46 @@ These examples demonstrate Gaussian Processes (GPs) with Kronecker-structured co
 
 ## Key idea
 
-If \(\mathbf{x} = (x_1, x_2)\) and the kernel factorizes as:
-\[
+If $\mathbf{x} = (x_1, x_2)$ and the kernel factorizes as:
+
+$$
 k((x_1,x_2),(x_1',x_2')) = k_1(x_1,x_1')\,k_2(x_2,x_2'),
-\]
-then the covariance matrix over grids \(X_1 \times X_2\) can be written as:
-\[
+$$
+
+then the covariance matrix over grids $X_1 \times X_2$ can be written as:
+
+$$
 K = K_2 \otimes K_1.
-\]
+$$
 
-For three dimensions (e.g., space \(\times\) space \(\times\) time):
-\[
+For three dimensions (e.g., space $\times$ space $\times$ time):
+
+$$
 k((x_1,x_2,t),(x_1',x_2',t')) = k_1(x_1,x_1')\,k_2(x_2,x_2')\,k_t(t,t'),
-\]
-implying:
-\[
-K = K_t \otimes K_2 \otimes K_1.
-\]
+$$
 
-This structure enables efficient computations (e.g. Cholesky) at \(O(n^{3/d})\) instead of \(O(n^3)\).
+implying:
+
+$$
+K = K_t \otimes K_2 \otimes K_1.
+$$
+
+This structure enables efficient computations (e.g. Cholesky) at $O(n^{3/d})$ instead of $O(n^3)$.
 
 ## Likelihoods
 
 - **Normal**: 
-  \[
+  
+  $$
   y(\mathbf{x}) = f(\mathbf{x}) + \epsilon, \quad \epsilon \sim \mathcal{N}(0,\sigma^2).
-  \]
+  $$
+  
 
 - **Poisson**:
-  \[
+
+  $$
   y(\mathbf{x}) \sim \text{Poisson}(\exp(f(\mathbf{x}))).
-  \]
+  $$
 
 ## Examples
 
