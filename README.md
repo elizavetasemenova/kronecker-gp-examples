@@ -34,16 +34,16 @@ This structure enables efficient computations (e.g. Cholesky) at $O(n^{3/d})$ in
 
 - **Normal**: 
   
-  $$
-  y(\mathbf{x}) = f(\mathbf{x}) + \epsilon, \quad \epsilon \sim \mathcal{N}(0,\sigma^2).
-  $$
+$$
+y(\mathbf{x}) = f(\mathbf{x}) + \epsilon, \quad \epsilon \sim \mathcal{N}(0,\sigma^2).
+$$
   
 
 - **Poisson**:
 
-  $$
-  y(\mathbf{x}) \sim \text{Poisson}(\exp(f(\mathbf{x}))).
-  $$
+$$
+y(\mathbf{x}) \sim \text{Poisson}(\exp(f(\mathbf{x}))).
+$$
 
 ## Examples
 
