@@ -20,11 +20,11 @@ data {
   int<lower=1> n2;
   real x1[n1];
   real x2[n2];
-  int<lower=1> N_obs;          // Number of observed points
+  int<lower=1> N_obs;          // number of observed points
   int obs_rows[N_obs];         // row indices of observed points
   int obs_cols[N_obs];         // col indices of observed points
   int<lower=0> y_obs[N_obs];   // observed counts
-  int<lower=1> N_miss;         // Number of missing points
+  int<lower=1> N_miss;         // number of missing points
   int miss_rows[N_miss];       // row indices of missing points
   int miss_cols[N_miss];       // col indices of missing points
 }
@@ -54,7 +54,7 @@ model {
 generated quantities {
   matrix[n1,n2] f_rep = gp2d_exp_quad(x1, x2, alpha, rho1, rho2, z);
 
-  // Impute missing data using posterior predictive distribution
+  // impute missing data
   int y_miss_pred[N_miss];
   for (m in 1:N_miss) {
     y_miss_pred[m] = poisson_log_rng(f_rep[miss_rows[m], miss_cols[m]]);

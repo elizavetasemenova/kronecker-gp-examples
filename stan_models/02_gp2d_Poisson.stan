@@ -20,7 +20,7 @@ data {
   int<lower=1> n2;
   real x1[n1];
   real x2[n2];
-  int<lower=0> y[n1,n2]; // Poisson count data
+  int<lower=0> y[n1,n2]; 
 }
 
 parameters {
