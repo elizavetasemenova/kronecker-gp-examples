@@ -1,7 +1,7 @@
-# Kronecker_demos
+# Kronecker Demos
 
-The examples build progressively:
+This repository provides examples of using the Kronecker trick for 2d Gaussian Processes regression:
 
-- 01: 2d, Normal likelihood
-- 02: 2d, Poisson likelihood
-- 02: 2d, Poisson likelihood, missing values
+- **01**: 2d GP with Normal likelihood
+- **02**: 2d GP with Poisson likelihood
+- **03**: 2d GP with Poisson likelihood and missing values
