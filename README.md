@@ -1,6 +1,6 @@
-# Kronecker Demos
+# Kronecker Gaussian Process - examples in Stan
 
-These examples demonstrate Gaussian Processes (GPs) with Kronecker-structured covariance matrices.
+These examples demonstrate Gaussian Processes (GP) regression with non-Gaussian likelihoods and missing values for Kronecker-structured covariance matrices.
 
 ## Key idea
 
