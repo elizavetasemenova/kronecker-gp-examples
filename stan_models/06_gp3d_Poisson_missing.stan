@@ -34,8 +34,18 @@ data {
   real x2[n2];
   real t[nt];
   real period;
-  int<lower=0> y[n1,n2,nt];
   real sigma_nugget;
+
+  int<lower=1> N_obs;
+  int obs_i[N_obs];
+  int obs_j[N_obs];
+  int obs_t[N_obs];
+  int<lower=0> y_obs[N_obs];
+
+  int<lower=1> N_miss;
+  int miss_i[N_miss];
+  int miss_j[N_miss];
+  int miss_t[N_miss];
 }
 
 parameters {
@@ -56,7 +66,7 @@ parameters {
 transformed parameters {
   matrix[n1,n1] K1 = gp_exp_quad_cov(x1, alpha_spatial, rho1_spatial) + diag_matrix(rep_vector(sigma_nugget, n1));
   matrix[n2,n2] K2 = gp_exp_quad_cov(x2, alpha_spatial, rho2_spatial) + diag_matrix(rep_vector(sigma_nugget, n2));
-
+  
   matrix[nt,nt] Kseason = periodic_cov(t, alpha_season, rho_season, period);
   matrix[nt,nt] Klongterm = gp_exp_quad_cov(t, alpha_longterm, rho_longterm);
   matrix[nt,nt] Ktime = Kseason + Klongterm + diag_matrix(rep_vector(sigma_nugget, nt));
@@ -69,30 +79,32 @@ transformed parameters {
 }
 
 model {
-  alpha_spatial ~ normal(1, 1);
-  rho1_spatial ~ normal(1, 1);
-  rho2_spatial ~ normal(1, 1);
-  alpha_season ~ normal(0.5, 0.5);
-  rho_season ~ normal(1, 0.5);
-  alpha_longterm ~ normal(0.8, 0.5);
-  rho_longterm ~ normal(1, 1);
+  alpha_spatial ~ normal(0.5, 0.5);
+  rho1_spatial ~ normal(0.5, 0.5);
+  rho2_spatial ~ normal(0.5, 0.5);
+  alpha_season ~ normal(0.5, 0.2);
+  rho_season ~ normal(1, 0.2);
+  alpha_longterm ~ normal(0.8, 0.2);
+  rho_longterm ~ normal(1, 0.5);
 
   to_vector(z) ~ normal(0,1);
 
-  for (tt in 1:nt) {
-    for (i in 1:n1) {
-      for (j in 1:n2) {
-        int idx = j + (i-1)*n2;
-        y[i,j,tt] ~ poisson_log(f_mat[idx, tt]);
-      }
-    }
+  // Poisson likelihood only for observed data
+  for (o in 1:N_obs) {
+    int idx = obs_j[o] + (obs_i[o]-1)*n2;
+    y_obs[o] ~ poisson_log(f_mat[idx, obs_t[o]]);
   }
 }
 
 generated quantities {
-  // posterior predictive samples for f
-  // already computed: f_mat
-  // if needed, can generate replicate counts, etc.
+  // Impute missing values using posterior predictive distribution
+  int y_miss_pred[N_miss];
+  {
+    for (m in 1:N_miss) {
+      int idx = miss_j[m] + (miss_i[m]-1)*n2;
+      y_miss_pred[m] = poisson_log_rng(f_mat[idx, miss_t[m]]);
+    }
+  }
 }
 
 

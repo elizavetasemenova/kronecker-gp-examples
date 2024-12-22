@@ -52,3 +52,4 @@ $$
 - **03**: 2d GP with Poisson likelihood, with missing values  (impute from posterior)
 - **04**: 3d GP (e.g. space-time), Poisson likelihood, no missingness, fixed parameters
 - **05**: 3d GP with Poisson likelihood, no missingness, parameter inference
+- **06**: 3d GP with Poisson likelihood, with missing values  (impute from posterior)
